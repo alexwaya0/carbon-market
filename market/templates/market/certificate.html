@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card max-w-2xl mx-auto text-center">
+  <h1 class="text-3xl font-bold mb-4">Carbon Offset Certificate</h1>
+  <p class="text-sm">Certificate for Transaction #{{ txn.id }}</p>
+  <div class="mt-6 border p-6">
+    <h2 class="font-semibold">{{ txn.listing.project.title }}</h2>
+    <p class="text-sm">{{ txn.listing.project.location }}</p>
+    <p class="mt-4">Buyer: {{ txn.buyer.username }}</p>
+    <p>Credits: <strong>{{ txn.credits_bought }} tCO₂</strong></p>
+    <p class="mt-2">Total amount paid: ${{ txn.total_amount }}</p>
+    <p class="mt-4 text-xs text-gray-600">This certificate confirms that the buyer has purchased carbon offset credits from the listed project. For verified registries, consult project documentation.</p>
+  </div>
+  <div class="mt-6">
+    <a class="bg-green-600 text-white px-4 py-2 rounded" onclick="window.print()">Print / Save PDF</a>
+  </div>
+</div>
+{% endblock %}

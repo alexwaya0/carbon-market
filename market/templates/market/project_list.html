@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-3xl font-semibold mb-6">All Listings</h1>
+<div class="grid md:grid-cols-3 gap-6">
+  {% for listing in listings %}
+    <div class="card">
+      <h2 class="font-bold">{{ listing.project.title }}</h2>
+      <p class="text-sm text-gray-600">{{ listing.project.location }} • {{ listing.project.get_project_type_display }}</p>
+      <p class="mt-2">Credits available: {{ listing.available_credits }} tCO₂</p>
+      <p class="mt-2 font-semibold">${{ listing.price_per_credit }} / ton</p>
+      <div class="mt-4 flex space-x-2">
+        <a href="{% url 'market:project_detail' listing.project.pk %}" class="text-sm text-green-600 hover:underline">View</a>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'market:cart' %}">
+            {% csrf_token %}
+            <!-- Not wired: default to add 1 ton. JS could enhance -->
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  {% empty %}
+    <p>No listings.</p>
+  {% endfor %}
+</div>
+{% endblock %}

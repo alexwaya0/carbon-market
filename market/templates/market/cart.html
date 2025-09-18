@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card max-w-3xl mx-auto">
+  <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
+  {% if items %}
+    <table class="w-full text-left">
+      <thead>
+        <tr><th>Project</th><th>Credits</th><th>Amount (USD)</th></tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+          <tr class="border-t">
+            <td class="py-3">{{ it.listing.project.title }}</td>
+            <td>{{ it.credits }}</td>
+            <td>${{ it.amount }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="mt-4 text-right">
+      <div class="font-semibold">Total: ${{ total }}</div>
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'market:checkout' %}">
+          {% csrf_token %}
+          <button class="mt-2 bg-green-600 text-white px-4 py-2 rounded">Checkout</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="mt-2 inline-block text-green-600">Login to checkout</a>
+      {% endif %}
+    </div>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+</div>
+{% endblock %}

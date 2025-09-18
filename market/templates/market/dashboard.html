@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Dashboard</h1>
+
+<div class="grid md:grid-cols-2 gap-6">
+  <div class="card">
+    <h3 class="font-semibold">Your Projects</h3>
+    <ul class="mt-3">
+      {% for p in projects %}
+        <li class="mb-2">
+          <div class="font-semibold">{{ p.title }}</div>
+          <div class="text-sm text-gray-600">{{ p.location }}</div>
+        </li>
+      {% empty %}
+        <li>No projects yet. <a href="{% url 'market:project_onboard' %}" class="text-green-600">Onboard one</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3 class="font-semibold">Your Transactions</h3>
+    <ul class="mt-3">
+      {% for t in txns %}
+        <li class="mb-3">
+          <div>#{{ t.id }} - {{ t.status }}</div>
+          <div class="text-sm">Credits: {{ t.credits_bought }} • ${{ t.total_amount }}</div>
+          {% if t.status == 'SUCCESS' %}
+            <a href="{% url 'market:certificate' t.id %}" class="text-green-600">Certificate</a>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>No transactions yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

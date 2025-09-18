@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card max-w-2xl mx-auto">
+  <h1 class="text-2xl font-bold">Checkout</h1>
+
+  {% if txn %}
+    <p class="mt-4">Transaction <strong>#{{ txn.id }}</strong> is confirmed.</p>
+    <p>Credits: {{ txn.credits_bought }} tCO₂</p>
+    <p>Total paid: ${{ txn.total_amount }}</p>
+    <p>Payment ref: {{ txn.payment_reference }}</p>
+
+    <a href="{% url 'market:certificate' txn.id %}" class="mt-4 inline-block bg-gray-800 text-white px-3 py-2 rounded">Download certificate</a>
+
+  {% else %}
+    <p>Simulating checkout success. In real integration, redirect to payment gateway.</p>
+  {% endif %}
+</div>
+{% endblock %}
